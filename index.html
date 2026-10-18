@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Whooley Questions Screener</title>
+
+    <!-- Google Translate (hidden, controlled by buttons) -->
+    <script>
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            { pageLanguage: 'en', autoDisplay: false },
+            'google_translate_element'
+        );
+    }
+
+    function setLanguage(lang) {
+        const select = document.querySelector('select.goog-te-combo');
+        if (!select) return;
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+    }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f0fe 100%);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.3em;
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .language-selector {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .language-selector button {
+            margin: 5px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid #4f46e5;
+        }
+
+        .question label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e1e5e9;
+            width: 100%;
+        }
+
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .calculate-btn {
+            padding: 16px 30px;
+            font-size: 16px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        #resultTitle {
+            font-size: 1.5em;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        /* Overlays */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay.show {
+            display: flex;
+        }
+
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .bottom-nav button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Required hidden Google element -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<div class="header">
+    <h1>Mental Health 2-Question tool (Whooley)</h1>
+
+    <div class="language-selector">
+        <p><strong>Change language:</strong></p>
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+        <button onclick="setLanguage('ar')">العربية</button>
+        <button onclick="setLanguage('ur')">اردو</button>
+        <button onclick="setLanguage('pl')">Polski</button>
+        <button onclick="setLanguage('zh-CN')">中文</button>
+        <button onclick="setLanguage('fr')">Français</button>
+    </div>
+</div>
+
+<div class="disclaimer">
+    DISCLAIMER: This tool is a validated screening aid for depression, not a clinical diagnosis. If you are experiencing a mental health crisis, please contact your local emergency services, call 111, or reach out to the Samaritans on 116 123 immediately.
+</div>
+
+<div class="container">
+    <div class="question">
+        <label>1. During the past month, have you often been bothered by feeling down, depressed, or hopeless?</label>
+        <select id="q1"><option value="0">No</option><option value="1">Yes</option></select>
+    </div>
+    <div class="question">
+        <label>2. During the past month, have you often been bothered by little interest or pleasure in doing things?</label>
+        <select id="q2"><option value="0">No</option><option value="1">Yes</option></select>
+    </div>
+
+    <button type="button" class="calculate-btn" onclick="checkWhooleyScore()">
+        Submit Responses
+    </button>
+</div>
+
+<div id="result">
+    <h5 id="resultTitle"></h5>
+    <p id="resultText"></p>
+</div>
+
+<!-- NEGATIVE SCREEN POPUP (LOW PROBABILITY) -->
+<div id="negativePopup" class="overlay">
+    <div class="popup">
+        <h3>Screen Negative</h3>
+        <p>You answered "No" to both screening questions. This indicates a lower likelihood of current depressive symptoms. However, if you still feel concerned or want to speak with someone, please contact your healthcare provider or GP.</p>
+        <button type="button" onclick="closePopup('negativePopup')">OK</button>
+    </div>
+</div>
+
+<!-- POSITIVE SCREEN POPUP (FURTHER ASSESSMENT ADVISED) -->
+<div id="positivePopup" class="overlay">
+    <div class="popup">
+        <h3>Further Assessment Advised</h3>
+        <p>Answering "Yes" to either question suggests that a further clinical assessment might be beneficial. We recommend scheduling a chat with your midwife, doctor or GP to discuss how you have been feeling.</p>
+        <button type="button" onclick="closePopup('positivePopup')">OK</button>
+    </div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedbackPopup" class="overlay">
+    <div class="popup">
+        <h3>Feedback</h3>
+        <textarea id="feedbackText" placeholder="Type your feedback here..."></textarea>
+        <br><br>
+        <button type="button" onclick="submitFeedback()">Send</button>
+        <button type="button" onclick="closePopup('feedbackPopup')">Close</button>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <button class="nhs-btn" onclick="launchNHSSelfReferral()" title="Opens NHS Mental Health Services"></button>
+    <button class="email-btn" onclick="emailGP()" title="Email your GP about this assessment">✉️</button>
+    <button class="feedback-btn-round" onclick="openFeedback()" title="Send feedback to improve tool"></button>
+</div>
+
+<script>
+function checkWhooleyScore() {
+    const q1 = parseInt(document.getElementById('q1').value);
+    const q2 = parseInt(document.getElementById('q2').value);
+    
+    const resultDiv = document.getElementById('result');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultText = document.getElementById('resultText');
+    
+    resultDiv.style.display = "block";
+    
+    if (q1 === 0 && q2 === 0) {
+        resultTitle.innerText = "Score: Negative Screening";
+        resultTitle.style.color = "#2e7d32";
+        resultText.innerText = "You answered 'No' to both key indicators. Further formal diagnostic testing is generally not indicated at this time unless symptoms persist or change.";
+        document.getElementById('negativePopup').classList.add('show');
+    } else {
+        resultTitle.innerText = "Score: Positive Screening";
+        resultTitle.style.color = "#c62828";
+resultText.innerText = "Answering 'Yes' to one or both of these questions indicates that further clinical evaluation by a medical professional is recommended to explore potential depressive symptoms.";
+document.getElementById('positivePopup').classList.add('show');
+}
+}
+function openFeedback() {
+document.getElementById('feedbackPopup').classList.add('show');
+}
+function closePopup(id) {
+document.getElementById(id).classList.remove('show');
+}
+function submitFeedback() {
+const feedback = document.getElementById('feedbackText').value;
+if(feedback.trim()) {
+alert("Thank you for your feedback!");
+document.getElementById('feedbackText').value = "";
+closePopup('feedbackPopup');
+} else {
+alert("Please enter some text before sending.");
+}
+}
+function launchNHSSelfReferral() {
+window.open("www.nhs.uk", "_blank");
+}
+function emailGP() {
+const q1Text = document.getElementById('q1').options[document.getElementById('q1').selectedIndex].text;
+const q2Text = document.getElementById('q2').options[document.getElementById('q2').selectedIndex].text;
+  const subject = encodeURIComponent("Whooley Depression Screening Self-Assessment Result");
+const body = encodeURIComponent(
+Hello,\n\nI have completed a Whooley mental health screening check with the following outcomes:\n\n +
+1. Bothered by feeling down, depressed, or hopeless over past month: ${q1Text}\n +
+2. Bothered by little interest or pleasure in doing things over past month: ${q2Text}\n\n +
+I would like to discuss these results during my next consultation.
+);
+window.location.href = mailto:?subject=${subject}&body=${body};
+}
